@@ -1,0 +1,117 @@
+---
+title: "STAT2011 week12 assignment"
+author: 'Pham Thiencan (SID: 530156989)'
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Q1a
+```{r}
+set.seed(200)
+r <- 10000 
+
+wins <- 0
+for (i in 1:r){
+  rolls <- sample(1:6, 10, replace = TRUE)
+  sum_rolls <- sum(rolls)
+  if (sum_rolls >= 40){
+    wins <- wins+1
+  }
+}
+
+prob_wins <- wins/r
+prob_wins
+```
+Q1b
+```{r}
+set.seed(200)
+
+muY <- 35
+varY <- 175/6
+sdY <- sqrt(varY)
+
+#Z-score
+Y <- 40
+z <- (Y - muY)/sdY
+
+1 - pnorm(z) 
+```
+1b comment:  
+The Monte Carlo approxmated probability is 0.1988 while the CLT approximated probability is 0.1773. Both approximations are quite close to each other, with Monte Carlo approximation giving a higher value. 
+
+Q2
+```{r}
+#2a
+X <- c(0, 1, 2, 3, 4)
+freq <- c(130, 133, 49, 7, 1)
+
+X_bar <- sum(X*freq)/320
+
+n <- 4
+p.hat <- X_bar / n
+
+p.hat
+#2b
+Exp_freq <- round(320*dbinom(X, size = n, prob = p.hat))
+Exp_freq
+
+#2c
+SR <- (freq - Exp_freq) / sqrt(Exp_freq)
+abs(SR)
+```
+2c comment:
+The standardised residual for each value of X is smaller than 2 in absolute terms, hence the fitted binomial model is a good model for the data. 
+
+Q3
+```{r}
+set.seed(100)
+#3a
+sm <- rnorm(25, 3, 1.5)
+y_hat <- mean(sm)
+y_hat #sample mean 
+
+q <- qnorm(0.975)
+c(y_hat-q*1.5/sqrt(25), y_hat+q*1.5/sqrt(25)) #95% confidence interval of this sample mean
+
+#3b
+contains_y_hat <- 0
+for (i in 1:20){
+  sm <- rnorm(25, 3, 1.5)
+  y_hat <- mean(sm)
+  L <- y_hat - q*1.5/sqrt(25) 
+  U <- y_hat + q*1.5/sqrt(25)
+  if (L <= 3 && U >= 3){
+    contains_y_hat <- contains_y_hat + 1 
+  }
+}
+contains_y_hat
+```
+Q4
+```{r}
+set.seed(100)
+#4a
+sm <- rexp(30, 2)
+sm_mean <- mean(sm)
+sm_mean
+
+sm_means <- numeric(1000)
+for (i in 1:1000){
+  sm <- rexp(30, 2)
+  sm_means[i] <- mean(sm)
+}
+
+hist(sm_means, prob=T, main="Histogram of 1000 sample means", xlab = "Sample Mean", ylab = "Density", col = "lightpink")
+
+#4b
+theo_mu <- 1 / 2
+theo_sd <- sqrt((1 / 2^2) / 30)
+curve(dnorm(x, theo_mu, theo_sd), col = "purple", lwd = 2, add = TRUE) 
+
+```
+```{space}
+```
+4b comment:
+Central Limit Theorem does give an appropriate approximation of the distribution of the mean as we can see that the distribution is approximately normal. Majority of the density of the histogram lies within the normal density curve. 
