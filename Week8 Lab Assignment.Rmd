@@ -1,0 +1,66 @@
+---
+title: "STAT2011 Lab Assignment Week8"
+author: 'Pham Thiencan (SID: 530156989)'
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, 3a}
+set.seed(21)
+B = 100
+m = 10
+n = 20
+p = 1/3
+X = rbinom(B, m, p)
+Y = rbinom(B, n, p)
+W = X + Y
+table(W)
+```
+
+```{r, 3b}
+Tab = table(W)
+W.obs = as.numeric(names(Tab))
+P.obs = as.numeric(Tab/B)
+```
+
+```{r, 3c}
+P.theo = dbinom(0:(m+n), m+n, p) #theorectical probabilities of W
+barplot(P.obs, names.arg=W.obs, col='green', ylim=c(0, 0.2),
+        main="Empirical Frequencies vs Theorectical Probabilities",
+        xlab= "W", ylab="Probabilities")
+points(0:(m+n), P.theo, col="purple", pch=19)
+legend("topleft",legend=c("Empirical", "Theoretical"), col = c("green", "purple"), pch = c(15, 19), cex=0.7)
+```
+```{space}
+```
+Comment: 
+The mean of the empirical distribution seems to be smaller than the theorectical distribution. The Empirical distribution also has larger tails and spread, so it seems to have larger variance than the theorectical distribution. Despite all that, both do seem to be close by the overlapping of their densities.
+
+```{r, 3d}
+set.seed(21)
+B2 = 10000
+m = 10
+n = 20
+p = 1/3
+X2 = rbinom(B2, m, p)
+Y2 = rbinom(B2, n, p)
+W2 = X2 + Y2
+table(W2)
+
+Tab = table(W2)
+W2.obs = as.numeric(names(Tab))
+P2.obs = as.numeric(Tab/B2)
+
+P2.theo = dbinom(0:(m+n), m+n, p) #theorectical probabilities of W
+barplot(P2.obs, names.arg=W2.obs, col='red', ylim=c(0, 0.2), main="Empirical Frequencies vs Theorectical Probabilities",xlab= "W", ylab="Probabilities")
+points(0:(m+n), P2.theo, col="blue", pch=19)
+legend("topleft",legend=c("Empirical", "Theoretical"), col = c("red", "blue"), pch = c(15, 19), cex=0.7)
+```
+```{space}
+```
+Comment: 
+The theorectical probability distribution is much closer to the empirical probability distribution when the sample size increases to 10000.
