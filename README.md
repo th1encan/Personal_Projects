@@ -1,9 +1,9 @@
-These are some personal projects I have accomplished, including the ones in school. Feel free to refer responsibly. 
+These are some school projects I have accomplished. Feel free to refer responsibly. 
 
 ## DATA2002 
 I used R Quarto to generate a reproducible report about the student population in DATA2X02 Sem 2 2024. 
 
-The report structure is as followed: 
+The report structure: 
 - Context
 - Data Exploratory Analysis
 - Data Cleaning
